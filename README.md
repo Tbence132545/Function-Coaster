@@ -10,6 +10,7 @@
 - Interactive coordinate system with draggable view
 - Randomly generated start and finish points
 - User-defined mathematical functions that control the ball's movement
+- You can set intervals by typing [min_value, max_value] after your expression
 - Start, Restart and Reset options for game control
 - Collision detection with the finish point, to determine win condition
 - Dynamic UI buttons and input box for user interaction
