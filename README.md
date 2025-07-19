@@ -19,7 +19,6 @@ A Pygame-based interactive application, where you can input functions, watch a b
 2. Install dependencies 
 
 Install dependencies with:
-'''bash
 pip install -r requirements.txt 
 
 -----------------
