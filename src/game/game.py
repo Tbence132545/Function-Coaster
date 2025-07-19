@@ -57,7 +57,14 @@ class Game:
 
     def update(self, origin_x, origin_y):
         if self.started and not self.won:
-            self.ball.update(self.functions, origin_x, origin_y, self.camera.scale)
+            parsed_functions = []
+            for expr in self.functions:
+                f, interval = parse_function(expr)
+                if f is not None:
+                    parsed_functions.append((f, interval))
+
+            self.ball.update(parsed_functions, origin_x, origin_y, self.camera.scale)
+
             if check_finish_collision(self.ball, self.finish_point, self.finish_point.radius, self.camera.scale):
                 self.player_won()
 

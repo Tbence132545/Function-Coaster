@@ -66,49 +66,41 @@ class Ball:
         pygame.draw.circle(screen, self.color, pixel_pos, self.radius)
 
     def update(self, functions, origin_x, origin_y, scale):
-        # Apply gravity downward
         self.vy -= self.gravity
 
         new_x = self.coord[0] + self.vx
         new_y = self.coord[1] + self.vy
 
-        for expr in functions:
-            f = parse_function(expr)
-            if f is None:
+        for f, interval in functions:
+            a, b = interval
+            if not (a <= new_x <= b):
                 continue
+
             try:
                 y_on_func = f(new_x)
                 if not np.isfinite(y_on_func):
                     continue
-                # Check collision: ball bottom touching function y
-                # We approximate ball bottom as coord y - radius in logical units
+
                 ball_bottom_y = new_y - self.radius / scale
 
-                # If ball would go below the function surface
                 if ball_bottom_y <= y_on_func:
-                    # Snap ball on surface
                     new_y = y_on_func + self.radius / scale
 
-                    # Calculate slope of function at new_x
+                    
                     slope = numerical_derivative(f, new_x)
-
-                    # Calculate angle of slope
                     angle = np.arctan(slope)
 
-                    # Gravity vector components along slope
-                    gravity_along_slope = -self.gravity * np.sin(angle)  # Note the minus here!
-
+                    gravity_along_slope = -self.gravity * np.sin(angle)
                     self.vx += gravity_along_slope * np.cos(angle)
                     self.vy = gravity_along_slope * np.sin(angle)
-                    # Optional: add friction to slow sliding a bit
+
                     friction = 0.02
                     self.vx *= (1 - friction)
                     self.vy *= (1 - friction)
-
-                    break  # Only consider first collision function
+                    break
 
             except Exception:
-                pass
+                continue
 
         self.coord = (new_x, new_y)
  
