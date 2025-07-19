@@ -2,7 +2,7 @@ Function Coaster
 -----------------
 A Pygame-based interactive application, where you can input functions, watch a ball roll along the graph, and try to reach a finish point.
 -----------------
-##Features 
+**Features**
 
 -Interactive coordinate system with draggable view
 -Randomly generated start and finish points
@@ -13,7 +13,7 @@ A Pygame-based interactive application, where you can input functions, watch a b
 
 -----------------
 
-##Installation 
+**Installation**
 
 1. Make sure you have Python 3.8 or higher installed
 2. Install dependencies 
@@ -24,14 +24,14 @@ pip install -r requirements.txt
 
 -----------------
 
-##How to Run 
+**How to Run**
 
 Run the main script to start the game: 
 python main.py
 
 -----------------
 
-##Usage
+**Usage**
 
 -Input functions in the textbox at the bottom and press Enter to add them to graph
 -Press the red X next to a function if you want to remove it from the graph
@@ -42,22 +42,8 @@ python main.py
 
 -----------------
 
-##Project Structure
 
-├── main.py
-├── UI/
-│   ├── camera.py
-│   ├── draw_utils.py
-│   ├── input_box.py
-├── game/
-│   ├── game.py
-│   ├── functions.py
-├── README.md
-├── .gitignore
-
------------------
-
-Contributing
+**Contributing**
 
 Feel free to open issues or submit pull requests. Any contributions to improve functionality or code quality are welcome.
 
