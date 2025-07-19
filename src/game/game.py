@@ -66,9 +66,9 @@ class Game:
         draw_coordinate_system(self.screen, width, height, origin_x, origin_y, self.camera.scale)
         textbox.draw(self.screen, width, height)
         for i, expr in enumerate(self.functions):
-            f = parse_function(expr)
+            f,interval = parse_function(expr)
             if f is not None:
-                draw_function(self.screen, f, origin_x, origin_y, self.camera.scale, width, height, i)
+                draw_function(self.screen, f,interval, origin_x, origin_y, self.camera.scale, width, height, i)
         if self.functions:
             self.buttons = draw_list(self.screen, self.functions)
         else:

@@ -4,8 +4,8 @@ import sympy
 import random
 from game.functions import parse_function
 
-LOGICAL_X_MIN, LOGICAL_X_MAX = -15,15
-LOGICAL_Y_MIN, LOGICAL_Y_MAX = -15,15
+LOGICAL_X_MIN, LOGICAL_X_MAX = -10,10
+LOGICAL_Y_MIN, LOGICAL_Y_MAX = -10,10
 BG_COLOR = (30, 30, 30)
 GRID_COLOR = (50, 50, 50)
 AXIS_COLOR = (200, 200, 200)
@@ -128,13 +128,9 @@ class StartButton:
         self.rect.inflate_ip(padding*2, padding*2)
 
     def draw(self, screen, screen_width, screen_height):
-        # Update position to top-right corner with padding
         self.rect.topright = (screen_width - self.padding, self.padding)
-        
-        # Draw button background
         pygame.draw.rect(screen, self.bg_color, self.rect.inflate(20, 10))
         self.text_surface = self.font.render(self.text, True, self.text_color)
-        # Draw text on top (centered inside background)
         text_pos = self.rect.center
         screen.blit(self.text_surface, self.text_surface.get_rect(center=text_pos))
 
@@ -179,19 +175,26 @@ def draw_coordinate_system(screen, width, height, origin_x, origin_y, scale):
     pygame.draw.line(screen, AXIS_COLOR, (0, origin_y), (width, origin_y), 2)
     pygame.draw.line(screen, AXIS_COLOR, (origin_x, 0), (origin_x, height), 2)
 
-def draw_function(screen, f, origin_x, origin_y, scale, width, height, color_index=0):
+def draw_function(screen, f, interval, origin_x, origin_y, scale, width, height, color_index=0):
     if f is None:
         return
 
     color = colors[color_index % len(colors)]
-
-    xs = np.linspace(0.01, width, num=width) 
+    xs = np.linspace(0, width, num=width)
     xs_coord = (xs - origin_x) / scale
+    a, b = interval
+    mask = (xs_coord >= a) & (xs_coord <= b)
+    xs = xs[mask]
+    xs_coord = xs_coord[mask]
+
+    if len(xs_coord) == 0:
+        return  
 
     with np.errstate(invalid='ignore', divide='ignore'):
         ys = f(xs_coord)
         if isinstance(ys, (int, float, np.number)):
             ys = np.full_like(xs_coord, ys, dtype=float)
+
     points = []
     for x_pixel, y in zip(xs, ys):
         if np.isfinite(y) and np.isreal(y):
